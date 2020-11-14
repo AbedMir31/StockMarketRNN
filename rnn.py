@@ -2,31 +2,25 @@ import pandas as pd
 import numpy as np
 
 # Raw url for stock data 
-url = "https://raw.githubusercontent.com/AbedMir31/StockMarketRNN/main/SPY%20(1).csv"
+url = "https://raw.githubusercontent.com/AbedMir31/StockMarketRNN/main/SPY.csv"
 
 # Preprocess the dataset 
 headers = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
-data = pd.read_csv(url, sep = ',', names = headers, skiprows=1)
+data = pd.read_csv(url, sep = ',', names = headers, skiprows=1160)
 data = data.drop('Adj Close', axis=1)
 data = data.drop('Date', axis=1)
 
-print(data)
-
 X = [data['Open'], data['High'], data['Volume']]
 Y = [data['Close']]
+
+
 X = np.array(X)
 Y = np.array(Y)
 
-# Holds all relevant attributes for the prediction
-X_train = np.array(X)
-# Trying to predict the closing price for the next day
-y_train = np.array(Y)
-
-
 learning_rate = .0001
 epoch = 25
-T = len(data)
-hidden_dim = 100
+T = 100
+hidden_dim = T
 output_dim = 1
 
 backprop_trunc = 5
@@ -60,8 +54,8 @@ for e in range(epoch):
             mulv = np.dot(V, s)
             prev_state = s
     
-    # calculate error 
+# calculate error 
         loss_per_record = (y - mulv)**2 / 2
         loss += loss_per_record
     loss = loss / float(y.shape[0])
-    print(loss)
+print("LOSS: ", np.sum(loss))
