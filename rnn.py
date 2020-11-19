@@ -1,61 +1,57 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
 
 # Raw url for stock data 
 url = "https://raw.githubusercontent.com/AbedMir31/StockMarketRNN/main/SPY.csv"
 
-# Preprocess the dataset 
-headers = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
-data = pd.read_csv(url, sep = ',', names = headers, skiprows=1160)
-data = data.drop('Adj Close', axis=1)
-data = data.drop('Date', axis=1)
+training_size = .8
+train_data = pd.read_csv(url)
+# training_data, test_data = train_test_split(data, train_size = training_size, shuffle = False)
+#print(train_data.head)
+train_data = train_data.iloc[:,4].values
+scaler = MinMaxScaler()
+train_data = scaler.fit_transform(train_data.reshape(-1,1))
 
-X = [data['Open'], data['High'], data['Volume']]
-Y = [data['Close']]
+timestep = 40
+x_train = []
+y_train = []
+for i in range (timestep, len(train_data)):
+    x_train.append(train_data[i-timestep:i, 0])
+    y_train.append(train_data[i,0])
+x_train = np.array(x_train)
+y_train = np.array(y_train)
+x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1],1))
 
+price_dim = len(train_data)
+hidden_dim = 100
+bptt_truncate = 4
 
-X = np.array(X)
-Y = np.array(Y)
+U = np.random.uniform(-np.sqrt(1./price_dim), np.sqrt(1./price_dim), (hidden_dim, price_dim))
+V = np.random.uniform(-np.sqrt(1./hidden_dim), np.sqrt(1./hidden_dim), (price_dim, hidden_dim))
+W = np.random.uniform(-np.sqrt(1./hidden_dim), np.sqrt(1./hidden_dim), (hidden_dim, hidden_dim))
 
-learning_rate = .0001
-epoch = 25
-T = 100
-hidden_dim = T
-output_dim = 1
+# We want to use the softmax activation function in the RNN
+def softmax(x):
+    e = np.exp(x)
+    return e / e.sum()
 
-backprop_trunc = 5
-min_clip = -10
-max_clip = 10
+def forward_propagate(x):
+    T = timestep
+    s = np.zeros((T+1, hidden_dim))
+    s[-1] = np.zeros(hidden_dim)
+    o = np.zeros((T, price_dim))
+    for i in np.arange(T):
+        s[i] = np.tanh(U[:,int(x[i])] + W.dot(s[i-1]))
+        o[i] = softmax(V.dot(s[i]))
+    return [o, s]
 
-# Weights
-U = np.random.uniform(0, 1, (hidden_dim, T))
-W = np.random.uniform(0, 1, (hidden_dim, hidden_dim))
-V = np.random.uniform(0, 1, (output_dim, hidden_dim))
+def predict_state(x):
+    o, s = forward_propagate(x)
+    return np.argmax(o, axis=1)
 
-# Sigmoid function
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-for e in range(epoch):
-    loss = 0.0
-
-    #forward pass
-    for i in range(Y.shape[0]):
-        x = X[i]
-        y = Y[i]
-        prev_state = np.zeros((hidden_dim, 1))
-        for t in range(T):
-            newinput = np.zeros(x.shape)
-            newinput[t] = x[t]
-            mulu = np.dot(U, newinput)
-            mulw = np.dot(W, prev_state)
-            add = mulw + mulu
-            s = sigmoid(add)
-            mulv = np.dot(V, s)
-            prev_state = s
-    
-# calculate error 
-        loss_per_record = (y - mulv)**2 / 2
-        loss += loss_per_record
-    loss = loss / float(y.shape[0])
-print("LOSS: ", np.sum(loss))
+predict = predict_state(x_train[10])
+print(predict.shape)
+print(predict)
