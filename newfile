@@ -67,3 +67,22 @@ out = bo + h(t)V
 
 forward(x)
 
+
+backprop:
+@L/@W, @L/@V, @L/U
+
+L = (SUM) L from t to t
+
+Loss based on V:
+@Lt/@V = @Lt/2Y_prime_t * @Y_prime_t/@V
+  @Lt/@Y_prime_t = -(yt-y_prime_t)
+  @Y_prime_t/@V = ht
+  Product should be a matrix : vector x vector
+
+Loss based on W:
+@Lt/@W = @Lt/@Y_prime_t * @Y_prime_t/@ht * @ht/@W
+   @Lt/@Y_prime_t = -(yt - y_prime_t)
+   @Y_prime_t/@ht = V
+   @ht/@W = 
+    ht = tanh(Ux + Wht-1) = tanh(zt)
+    @ht/@W = tanh^ (zt)[h2 + W@h2/@W]
