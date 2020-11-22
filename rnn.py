@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
+import logging
+logging.basicConfig(filename='rnn.log', level=logging.INFO,
+                    format='%(levelname)s:%(message)s')
 
 # Raw url for stock data 
 url = "https://raw.githubusercontent.com/AbedMir31/StockMarketRNN/main/SPY.csv"
