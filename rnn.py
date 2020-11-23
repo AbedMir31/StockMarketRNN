@@ -5,6 +5,8 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
 import logging
+# Creates rnn.log file to which we can write specific results
+# regarding the data analysis
 logging.basicConfig(filename='rnn.log', level=logging.INFO,
                     format='%(levelname)s:%(message)s')
 
