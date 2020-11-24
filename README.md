@@ -12,4 +12,14 @@ X = [Date, ]
 Y = closing price for SPY
 
 Dependencies and Modules (make sure these are installed on your computer):
+pandas
+numpy
+matplotlib
+sklearn
+plotly
+
+Once installed, run rnn.py using command:
+python rnn.py
+
+No command line arguments are required. If you are looking to edit the RNN parameters, they are located in the main function of the class at the bottom of the file.
 

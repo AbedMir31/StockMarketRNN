@@ -1,0 +1,7 @@
+Parameters:                                                                                                      Results:
+RNN Timestep = 5, learning rate = 0.5, iterations = 100, # hidden layers = 5, Error Function = RMSE 			 Train/Test Split: 80/20, Size of dataset = 1259, MSE = 0.01563, RMSE = 0.12502007289053152
+RNN Timestep = 10, learning rate = 0.5, iterations = 100, # hidden layers = 5, Error Function = RMSE 			 Train/Test Split: 80/20, Size of dataset = 1259, MSE = 0.025874, RMSE = 0.16085382758451142
+RNN Timestep = 2, learning rate = 0.5, iterations = 100, # hidden layers = 5, Error Function = RMSE 			 Train/Test Split: 80/20, Size of dataset = 1259, MSE = 0.0145812, RMSE = 0.1207527864336412
+RNN Timestep = 2, learning rate = 0.1, iterations = 100, # hidden layers = 5, Error Function = RMSE 			 Train/Test Split: 80/20, Size of dataset = 1259, MSE = 0.0065621, RMSE = 0.08100667980348565
+RNN Timestep = 2, learning rate = 0.01, iterations = 100, # hidden layers = 5, Error Function = RMSE 			 Train/Test Split: 80/20, Size of dataset = 1259, MSE = 0.002983, RMSE = 0.054617166647082695
+RNN Timestep = 2, learning rate = 0.001, iterations = 100, # hidden layers = 5, Error Function = RMSE 			 Train/Test Split: 80/20, Size of dataset = 1259, MSE = 0.00313, RMSE = 0.05594643393771169
