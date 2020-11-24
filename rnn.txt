@@ -1,3 +1,4 @@
+#John Kenney (jfk150030),  Matthew Brown (meb180001), Abed Mir (amm161930), Saman Laleh (sxl173130)
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt

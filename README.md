@@ -1,5 +1,5 @@
 # StockMarketRNN
-Machine Learning Project
+Machine Learning Project // John Kenney (jfk150030),  Matthew Brown (meb180001), Abed Mir (amm161930), Saman Laleh (sxl173130)
 
 Original Attributes
 Date,Open,High,Low,Close,Adj Close,Volume
